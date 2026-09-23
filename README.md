@@ -55,7 +55,7 @@ Abra um terminal na pasta do projeto (onde está este `README.md`).
 ### Windows / PowerShell
 
 ```powershell
-cd "C:\Users\Pedro\Desktop\assis v2"
+cd "C:\Users\Pedro\Desktop\seminario-owasp-xss-lab"
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
@@ -68,7 +68,7 @@ pip install -r requirements.txt
 ### macOS / Linux
 
 ```bash
-cd "/caminho/para/assis v2"
+cd "/caminho/para/seminario-owasp-xss-lab"
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
@@ -317,7 +317,7 @@ fora do projeto. Depois do reset, **faça login novamente**.
 ## 11. Estrutura dos arquivos
 
 ```
-assis v2/
+seminario-owasp-xss-lab/
 ├── README.md                     # este arquivo
 ├── ROTEIRO.md                    # roteiro de 20 min para 3 apresentadores
 ├── requirements.txt
