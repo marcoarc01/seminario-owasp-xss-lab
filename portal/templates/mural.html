@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% set mostrar_aviso = true %}  {# mural dispara o aviso repetitivo no modo vulnerável #}
+{% block titulo %}Mural — Mural do Campus{% endblock %}
+{% block conteudo %}
+  <section class="cartao">
+    <h1 class="titulo-pagina">Mural compartilhado</h1>
+
+    {% if not vulneravel %}
+      {# Modo corrigido: orientação discreta e contextual, sem repetição. #}
+      <p class="nota-discreta">
+        Comentários são exibidos como texto. Scripts enviados não são executados.
+      </p>
+    {% endif %}
+
+    <ul class="lista-publicacoes">
+      {% for pub in publicacoes %}
+        <li class="item-publicacao">
+          <a class="titulo-publicacao" href="{{ url_for('publicacao', pub_id=pub.id) }}">{{ pub.titulo }}</a>
+          <p class="corpo-publicacao">{{ pub.corpo }}</p>
+          <p class="meta">por {{ pub.autor }} · {{ pub.criado_em }}</p>
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
+{% endblock %}

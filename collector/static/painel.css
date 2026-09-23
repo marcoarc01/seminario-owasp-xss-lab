@@ -1,0 +1,30 @@
+/* Coletor — visual mínimo e discreto. É uma ferramenta didática, não um dashboard. */
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
+  color: #1f2933;
+  background: #f4f5f7;
+}
+.topo { background: #fff; border-bottom: 1px solid #d5dbe1; padding: 10px 16px; }
+.marca { font-weight: bold; }
+.conteudo { max-width: 760px; margin: 16px auto; padding: 0 16px; }
+.resumo { font-size: 15px; }
+.aviso { color: #52606d; font-size: 13px; }
+.tabela { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid #d5dbe1; }
+.tabela th, .tabela td { text-align: left; padding: 8px 10px; border-bottom: 1px solid #e3e7eb; font-size: 14px; }
+.tabela th { background: #eef1f4; }
+.token code { word-break: break-all; }
+.botao-copiar {
+  padding: 5px 10px; font-size: 13px; cursor: pointer;
+  color: #fff; background: #2b5c8a; border: 1px solid #1f4468; border-radius: 3px;
+}
+.botao-copiar:hover { background: #1f4468; }
+.vazio { color: #52606d; }
+.copiado {
+  position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
+  background: #1f2933; color: #fff; padding: 6px 12px; border-radius: 3px; font-size: 13px;
+}
+.copiado[hidden] { display: none; }
+button:focus { outline: 2px solid #2b5c8a; outline-offset: 1px; }

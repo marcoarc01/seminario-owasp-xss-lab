@@ -1,0 +1,8 @@
+# Mural do Campus — laboratório local de XSS persistente
+# Dependências mínimas. Flask já traz Werkzeug (hash de senha) e Jinja.
+Flask==3.1.3
+
+# Opcional: apenas para a verificação HTTPS local do atributo Secure do cookie.
+# Não é necessário para a demonstração principal (que roda em HTTP local).
+# Descomente se for usar o perfil HTTPS documentado no README.
+# cryptography>=42.0

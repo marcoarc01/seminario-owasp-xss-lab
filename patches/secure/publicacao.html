@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% set mostrar_aviso = true %}  {# abrir publicação também dispara o aviso repetitivo #}
+{% block titulo %}{{ pub.titulo }} — Mural do Campus{% endblock %}
+{% block conteudo %}
+  <section class="cartao">
+    <p class="voltar"><a href="{{ url_for('mural') }}">&larr; Voltar ao mural</a></p>
+    <h1 class="titulo-pagina">{{ pub.titulo }}</h1>
+    <p class="corpo-publicacao">{{ pub.corpo }}</p>
+    <p class="meta">por {{ pub.autor }} · {{ pub.criado_em }}</p>
+
+    <hr class="divisoria">
+
+    <h2 class="subtitulo">Comentários</h2>
+
+    {% if not vulneravel %}
+      <p class="nota-discreta">
+        Os comentários abaixo são exibidos como texto. Código enviado não roda.
+      </p>
+    {% endif %}
+
+    <ul class="lista-comentarios">
+      {% for comentario in comentarios %}
+        <li class="item-comentario">
+          {# ------------------------------------------------------------ #}
+          {#  CORREÇÃO APLICADA (Stored XSS)                               #}
+          {#                                                               #}
+          {#  O corpo do comentário agora é renderizado SEM |safe, ou     #}
+          {#  seja, com o autoescape padrão do Jinja ligado. Um comentário #}
+          {#  com <script>...</script> passa a ser exibido como TEXTO,     #}
+          {#  não executado. O texto original continua no banco, intacto.  #}
+          {#                                                               #}
+          {#  Não usamos regex nem removemos a palavra "script": a defesa  #}
+          {#  correta é tratar o dado como texto no contexto HTML.         #}
+          {# ------------------------------------------------------------ #}
+          <div class="comentario-corpo">{{ comentario.conteudo }}</div>
+          <p class="meta">por {{ comentario.autor }} · {{ comentario.criado_em }}</p>
+        </li>
+      {% else %}
+        <li class="item-comentario vazio">Ainda não há comentários.</li>
+      {% endfor %}
+    </ul>
+
+    <form method="post" class="formulario formulario-comentario">
+      <label for="conteudo">Novo comentário</label>
+      <textarea id="conteudo" name="conteudo" rows="3" required></textarea>
+      <button type="submit" class="botao">Publicar</button>
+    </form>
+  </section>
+{% endblock %}

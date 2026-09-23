@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Coletor do laboratório</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='painel.css') }}">
+</head>
+<body>
+  <header class="topo">
+    <span class="marca">Coletor do laboratório (página do atacante)</span>
+  </header>
+
+  <main class="conteudo">
+    <p class="resumo">
+      Capturas reais: <strong>{{ total }}</strong>
+      · verificações de saúde/teste (não contam): {{ saude }}
+    </p>
+    <p class="aviso">
+      Só aparecem aqui os tokens que o payload leu de <code>document.cookie</code>
+      e enviou de propósito. O terminal do coletor é a evidência principal.
+    </p>
+
+    {% if capturas %}
+      <table class="tabela">
+        <thead>
+          <tr><th>Hora</th><th>Origem</th><th>Token (fictício)</th><th></th></tr>
+        </thead>
+        <tbody>
+          {% for c in capturas %}
+            <tr>
+              {# Todos os campos escapados pelo autoescape do Jinja. #}
+              <td>{{ c.hora }}</td>
+              <td>{{ c.origem_host }}</td>
+              <td class="token"><code>{{ c.token }}</code></td>
+              <td>
+                <button type="button" class="botao-copiar" data-token="{{ c.token }}">
+                  Copiar token
+                </button>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p class="vazio">Nenhuma captura ainda. Execute o payload no portal.</p>
+    {% endif %}
+  </main>
+
+  <p id="copiado" class="copiado" hidden>Token copiado.</p>
+
+  <script src="{{ url_for('static', filename='painel.js') }}"></script>
+</body>
+</html>
