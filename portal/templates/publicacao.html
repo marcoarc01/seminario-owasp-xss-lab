@@ -16,7 +16,6 @@
     <ul class="lista-comentarios">
       {% for comentario in comentarios %}
         <li class="item-comentario">
-          {# DEMO: |safe executa HTML; remova |safe para tratar como texto. #}
           <div class="comentario-corpo">{{ comentario.conteudo | safe}}</div>
           <p class="meta">por {{ comentario.autor }} · {{ comentario.criado_em }}</p>
         </li>
