@@ -11,7 +11,8 @@
   data-aviso controla o aviso repetitivo do modo vulnerável (fadiga de alerta).
   data-aviso-contexto passa o texto do aviso para o script (sem inline script).
 -->
-<body data-aviso="{{ '1' if (vulneravel and mostrar_aviso is defined and mostrar_aviso) else '0' }}"
+<body class="{% block classe_pagina %}{% endblock %}"
+      data-aviso="{{ '1' if (vulneravel and mostrar_aviso is defined and mostrar_aviso) else '0' }}"
       data-modo="{{ lab_mode }}">
 
   <header class="cabecalho">
@@ -30,22 +31,12 @@
     </div>
   </header>
 
-  {% if vulneravel %}
-    <div class="faixa-modo faixa-modo-vuln" role="status">
-      Ambiente de laboratório — modo VULNERÁVEL. Uso didático, apenas em localhost.
-    </div>
-  {% else %}
-    <div class="faixa-modo faixa-modo-ok" role="status">
-      Ambiente de laboratório — modo CORRIGIDO.
-    </div>
-  {% endif %}
-
   <main class="conteudo">
     {% block conteudo %}{% endblock %}
   </main>
 
   <footer class="rodape">
-    Laboratório acadêmico de segurança — Mural do Campus. Modo: {{ lab_mode }}.
+    Mural do Campus.
   </footer>
 
   <!-- Modal simples do aviso repetitivo (modo vulnerável). Um por carregamento. -->

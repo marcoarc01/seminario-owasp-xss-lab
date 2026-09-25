@@ -46,6 +46,16 @@ def get_usuario_por_id(conn, usuario_id):
     ).fetchone()
 
 
+def criar_usuario(conn, usuario, senha_hash, nome, matricula, curso, recado_privado):
+    cursor = conn.execute(
+        "INSERT INTO usuarios (usuario, senha_hash, nome, matricula, curso, recado_privado) "
+        "VALUES (?, ?, ?, ?, ?, ?)",
+        (usuario, senha_hash, nome, matricula, curso, recado_privado),
+    )
+    conn.commit()
+    return cursor.lastrowid
+
+
 # ----------------------- publicações --------------------
 
 def listar_publicacoes(conn):

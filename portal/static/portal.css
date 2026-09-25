@@ -11,8 +11,6 @@
   --destaque: #2b5c8a;      /* azul sóbrio, único acento */
   --destaque-escuro: #1f4468;
   --erro: #9b1c1c;
-  --aviso-fundo: #fdf6e3;
-  --aviso-linha: #e0d3a0;
 }
 
 * { box-sizing: border-box; }
@@ -47,17 +45,22 @@ body {
 .nav-usuario { color: var(--tinta-suave); font-size: 13px; }
 .nav-form { margin: 0; }
 
-.faixa-modo {
-  max-width: 760px;
-  margin: 8px auto 0;
-  padding: 6px 16px;
-  font-size: 13px;
-  border-radius: 3px;
-}
-.faixa-modo-vuln { background: var(--aviso-fundo); border: 1px solid var(--aviso-linha); color: #6b5900; }
-.faixa-modo-ok { background: #eef5ef; border: 1px solid #cfe0d0; color: #2f5233; }
-
 .conteudo { max-width: 760px; margin: 16px auto; padding: 0 16px; }
+
+/* Login centralizado na área disponível entre cabeçalho e rodapé. */
+.pagina-login { min-height: 100vh; display: flex; flex-direction: column; }
+.pagina-login .cabecalho-interno { justify-content: center; }
+.pagina-login .conteudo {
+  flex: 1;
+  width: 100%;
+  margin: 0 auto;
+  padding: 24px 16px;
+  display: grid;
+  place-items: center;
+}
+.cartao-login { width: 100%; text-align: center; }
+.cartao-login .formulario label { text-align: left; }
+.cartao-login .formulario .botao { align-self: stretch; }
 
 .cartao {
   background: var(--papel);

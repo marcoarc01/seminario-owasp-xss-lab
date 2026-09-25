@@ -76,6 +76,7 @@ pip install -r requirements.txt
 
 O banco `instance/mural.db` é criado e populado **automaticamente** no primeiro
 início do portal. Para criar/recriar manualmente: `python reset.py`.
+O banco e o ambiente `.venv` são locais e ignorados pelo Git.
 
 ---
 
@@ -124,6 +125,14 @@ LAB_MODE=corrigido python run_portal.py
 
 As senhas são gravadas **apenas como hash** (werkzeug/scrypt). A conta `aluno`
 tem um **recado privado** que o atacante conseguirá ler ao reutilizar a sessão.
+
+Para criar contas na hora da apresentação, abra `http://localhost:5000`,
+clique em **Criar conta** na tela de login e preencha usuário, nome, matrícula,
+curso, senha e, se quiser, um recado privado fictício. O cadastro salva a
+conta em `instance/mural.db` e já entra nela. Para criar outra conta no mesmo
+perfil, clique em **Sair** e volte a **Criar conta**. Use perfis de navegador
+separados para manter as sessões da vítima e do atacante independentes.
+O comando `python reset.py` apaga também as contas criadas manualmente.
 
 ---
 
@@ -326,7 +335,7 @@ seminario-owasp-xss-lab/
 ├── reset.py                      # recria o banco e invalida sessões
 ├── consultas_dbeaver.sql         # consultas SQL prontas
 ├── instance/
-│   └── mural.db                  # SQLite (criado no 1º início)
+│   └── mural.db                  # SQLite local (criado no 1º início; ignorado pelo Git)
 ├── portal/
 │   ├── app.py                    # rotas, emissão do cookie, CSP, validação de host
 │   ├── config.py                 # modo do laboratório e postura de segurança
@@ -334,7 +343,7 @@ seminario-owasp-xss-lab/
 │   ├── db.py                     # SQLite, consultas parametrizadas
 │   ├── seed.py                   # dados fictícios
 │   ├── schema.sql                # esquema (4 tabelas)
-│   ├── templates/                # login, mural, publicacao (|safe), conta, base
+│   ├── templates/                # login, cadastro, mural, publicacao (|safe), conta, base
 │   └── static/                   # portal.css, portal.js
 ├── collector/
 │   ├── collector.py              # coletor separado (sem acesso ao banco do portal)

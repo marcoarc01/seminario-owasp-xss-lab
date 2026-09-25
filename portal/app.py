@@ -4,12 +4,14 @@ Mural do Campus — portal (Flask).
 Servido apenas em loopback, na porta 5000, com nome de host "localhost".
 O modo (vulneravel/corrigido) vem de LAB_MODE (ver config.py).
 
-Ponto único e real de emissão do cookie campus_session: a rota /login, na
-função _emitir_sessao(). É ali que HttpOnly/SameSite/Secure são aplicados
-EXPLICITAMENTE, de acordo com o modo. Não presumimos que uma configuração
-global do Flask altere um cookie que criamos à mão.
+Ponto único e real de emissão do cookie campus_session: a função
+_emitir_sessao(), usada no login e no cadastro. É ali que HttpOnly, SameSite
+e Secure são aplicados EXPLICITAMENTE, de acordo com o modo. Não presumimos
+que uma configuração global do Flask altere um cookie que criamos à mão.
 """
 import os
+import re
+import sqlite3
 import sys
 
 from flask import (
@@ -21,6 +23,7 @@ from flask import (
     request,
     url_for,
 )
+from werkzeug.security import generate_password_hash
 
 from . import auth, db
 from .config import (
@@ -129,6 +132,49 @@ def login():
             resp = redirect(url_for("mural"))
             return _emitir_sessao(resp, row["id"])
     return render_template("login.html", erro=erro)
+
+
+@app.route("/cadastro", methods=["GET", "POST"])
+def cadastro():
+    erro = None
+    dados = {}
+    if request.method == "POST":
+        campos = ("usuario", "nome", "matricula", "curso", "recado_privado")
+        dados = {campo: request.form.get(campo, "").strip() for campo in campos}
+        senha = request.form.get("senha", "")
+        confirmar_senha = request.form.get("confirmar_senha", "")
+
+        if not re.fullmatch(r"[A-Za-z0-9_]{3,32}", dados["usuario"]):
+            erro = "Usuário: use de 3 a 32 letras, números ou _ (sem espaços)."
+        elif not 2 <= len(dados["nome"]) <= 80:
+            erro = "Informe um nome com 2 a 80 caracteres."
+        elif not 1 <= len(dados["matricula"]) <= 30:
+            erro = "Informe uma matrícula com até 30 caracteres."
+        elif not 2 <= len(dados["curso"]) <= 80:
+            erro = "Informe um curso com 2 a 80 caracteres."
+        elif len(dados["recado_privado"]) > 500:
+            erro = "O recado privado pode ter até 500 caracteres."
+        elif not 6 <= len(senha) <= 128:
+            erro = "A senha deve ter de 6 a 128 caracteres."
+        elif senha != confirmar_senha:
+            erro = "As senhas não conferem."
+        else:
+            try:
+                usuario_id = db.criar_usuario(
+                    g.conn,
+                    dados["usuario"],
+                    generate_password_hash(senha),
+                    dados["nome"],
+                    dados["matricula"],
+                    dados["curso"],
+                    dados["recado_privado"],
+                )
+            except sqlite3.IntegrityError:
+                erro = "Este nome de usuário já está em uso."
+            else:
+                return _emitir_sessao(redirect(url_for("mural")), usuario_id)
+
+    return render_template("cadastro.html", erro=erro, dados=dados)
 
 
 @app.route("/logout", methods=["POST"])

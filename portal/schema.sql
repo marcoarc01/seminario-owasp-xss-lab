@@ -11,7 +11,7 @@
 PRAGMA foreign_keys = ON;
 
 -- ---------------------------------------------------------------------
--- usuarios: contas fictícias de demonstração.
+-- usuarios: contas fictícias de semente e contas criadas no cadastro local.
 -- A senha é guardada apenas como hash (werkzeug / scrypt), nunca em texto.
 -- "recado_privado" é o dado fictício e sensível que a vítima vê em
 -- "Minha conta" e que o atacante consegue ler ao reutilizar a sessão.

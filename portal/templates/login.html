@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 {% block titulo %}Entrar — Mural do Campus{% endblock %}
+{% block classe_pagina %}pagina-login{% endblock %}
 {% block conteudo %}
-  <section class="cartao cartao-estreito">
+  <section class="cartao cartao-estreito cartao-login">
     <h1 class="titulo-pagina">Entrar</h1>
     {% if erro %}
       <p class="erro" role="alert">{{ erro }}</p>
@@ -15,8 +16,8 @@
 
       <button type="submit" class="botao">Entrar</button>
     </form>
-    <p class="ajuda">
-      Contas de demonstração estão no README do laboratório.
+    <p class="ajuda">Quer criar uma conta para a apresentação?
+      <a href="{{ url_for('cadastro') }}">Criar conta</a>.
     </p>
   </section>
 {% endblock %}

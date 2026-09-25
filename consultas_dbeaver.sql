@@ -7,7 +7,8 @@
 -- 1) Ver o esquema (todas as tabelas e como foram criadas)
 SELECT name, sql FROM sqlite_master WHERE type = 'table' ORDER BY name;
 
--- 2) Contas fictícias (repare: só há hash de senha, nunca a senha em texto)
+-- 2) Contas fictícias, inclusive as criadas no cadastro
+--    (repare: só há hash de senha, nunca a senha em texto)
 SELECT id, usuario, nome, matricula, curso, senha_hash FROM usuarios;
 
 -- 3) Publicações do mural

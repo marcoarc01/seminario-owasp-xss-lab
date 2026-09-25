@@ -2,7 +2,8 @@
 Autenticação e sessão OPACA do portal.
 
 Modelo de sessão (igual nos dois modos — não é isto que a falha do XSS explora):
-- No login válido, geramos um token aleatório imprevisível (secrets.token_urlsafe).
+- No login válido ou no cadastro, geramos um token aleatório imprevisível
+  (secrets.token_urlsafe).
 - Esse token vai para o cookie campus_session (host-only, sem Domain).
 - No servidor, guardamos apenas o HASH sha-256 do token na tabela sessoes,
   associado ao usuário, com data de expiração. O token em claro nunca é gravado.

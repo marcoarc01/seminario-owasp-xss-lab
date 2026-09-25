@@ -1,0 +1,10 @@
+# Arquivos locais gerados pelo Python e pelo macOS
+.venv/
+__pycache__/
+*.py[cod]
+.DS_Store
+.pytest_cache/
+
+# Dados locais do laboratório (inclui arquivos temporários do SQLite)
+instance/*.db
+instance/*.db-*

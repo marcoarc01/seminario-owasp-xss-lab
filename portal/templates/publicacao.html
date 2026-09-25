@@ -38,7 +38,7 @@
           {#                                                               #}
           {#  Observe que autor e horário continuam ESCAPADOS (sem |safe). #}
           {# ------------------------------------------------------------ #}
-          <div class="comentario-corpo">{{ comentario.conteudo | safe }}</div>
+          <div class="comentario-corpo">{{ comentario.conteudo }}</div>
           <p class="meta">por {{ comentario.autor }} · {{ comentario.criado_em }}</p>
         </li>
       {% else %}
