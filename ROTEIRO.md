@@ -38,7 +38,8 @@
 **O que mostrar (2–3 min):**
 
 1. Abra `http://localhost:5000` no navegador da **vítima**. Faça o login.
-2. Mostre o **mural** e uma **publicação** com comentários normais.
+2. Mostre o **mural vazio** e crie ao vivo duas páginas: **"Teste do alerta"**
+   e **"Teste da captura"**. Abra a primeira e publique um comentário normal.
 3. Mostre **"Minha conta"**: nome, matrícula, curso e o **recado privado**.
    *"Guardem esse recado privado: é o dado sensível que vamos ver 'vazar'."*
 
@@ -62,7 +63,7 @@ aviso repetitivo é UX, não a causa do XSS.
 
 ### 2A. Prova inicial (≈2 min)
 
-1. Vítima → publicação **"Grupo de estudos"** → comentário
+1. Vítima → página **"Teste do alerta"** → comentário
    `<script>alert(1)</script>` → **Publicar**.
 2. **Resultado esperado:** aparece **`alert(1)`**. *"O comentário virou código."*
 3. **DBeaver:** rode a consulta 5 (`WHERE conteudo LIKE '%<script%'`).
@@ -73,7 +74,7 @@ aviso repetitivo é UX, não a causa do XSS.
 
 ### 2B. Captura da sessão (≈3 min)
 
-5. Em **outra** publicação (ex.: **"Semana de Tecnologia"**), cole o payload de
+5. Na página **"Teste da captura"**, cole o payload de
    captura (`payloads/2_captura_sessao.txt`) → **Publicar**.
    *"Esse script lê **só** o cookie `campus_session` e manda para o nosso
    coletor local. Nada de senha, nada de outros cookies."*

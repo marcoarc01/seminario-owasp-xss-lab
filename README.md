@@ -74,8 +74,10 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-O banco `instance/mural.db` é criado e populado **automaticamente** no primeiro
-início do portal. Para criar/recriar manualmente: `python reset.py`.
+O banco `instance/mural.db` é criado **automaticamente** no primeiro início do
+portal, com as contas de demonstração e o mural vazio. As páginas e os
+comentários são criados pela interface durante a apresentação. Para recriar
+manualmente: `python reset.py`.
 O banco e o ambiente `.venv` são locais e ignorados pelo Git.
 
 ---
@@ -170,8 +172,8 @@ navegador para a **vítima** (`aluno`) e outro navegador/perfil para o
 
 ### A) Prova inicial — o comentário vira código
 
-1. No navegador da **vítima**, entre como `aluno` e abra a publicação
-   **"Grupo de estudos de Algoritmos"**.
+1. No navegador da **vítima**, entre como `aluno`. No mural, crie uma página
+   chamada **"Teste do alerta"** e abra essa página.
 2. No campo **Novo comentário**, cole (arquivo `payloads/1_prova_alert.txt`):
    `<script>alert(1)</script>` e clique **Publicar**.
 3. A página recarrega e aparece o **`alert(1)`**. Clique OK.
@@ -186,8 +188,8 @@ navegador para a **vítima** (`aluno`) e outro navegador/perfil para o
 
 ### B) Captura real da sessão de laboratório
 
-1. Ainda no **modo vulnerável**, abra **outra** publicação (ex.: **"Semana de
-   Tecnologia"**).
+1. Ainda no **modo vulnerável**, volte ao mural, crie outra página chamada
+   **"Teste da captura"** e abra essa página.
 2. Cole o payload de captura (arquivo `payloads/2_captura_sessao.txt`) e
    **Publicar**. Ele lê **apenas** `campus_session` de `document.cookie` e
    envia esse valor ao coletor (`127.0.0.1:9000`) por uma requisição simples.
@@ -283,9 +285,10 @@ um terminal **vazio** no reteste significa **"a defesa funcionou"**, e não
 python reset.py
 ```
 
-Recria **apenas** `instance/mural.db` (contas, publicações e comentários de
-semente) e, ao recriar, **invalida todas as sessões antigas**. Não apaga nada
-fora do projeto. Depois do reset, **faça login novamente**.
+Recria **apenas** `instance/mural.db`, mantém somente as contas fictícias de
+demonstração e deixa o mural vazio. Ao recriar, **invalida todas as sessões
+antigas** e remove páginas, comentários e contas criados manualmente. Não apaga
+nada fora do projeto. Depois do reset, **faça login novamente**.
 
 ---
 

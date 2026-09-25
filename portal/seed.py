@@ -1,10 +1,9 @@
 """
 Semente de dados fictícios do laboratório.
 
-Cria (ou recria) o banco instance/mural.db com:
-- duas contas fictícias: aluno (vítima) e atacante;
-- três publicações prontas no mural;
-- alguns comentários normais.
+Cria (ou recria) o banco instance/mural.db com duas contas fictícias de
+demonstração. O mural começa vazio: as publicações e os comentários são
+criados interativamente durante a apresentação.
 
 Todas as credenciais são de demonstração e estão no README. As senhas são
 gravadas apenas como hash (werkzeug). Nada aqui é real.
@@ -42,33 +41,9 @@ USUARIOS = [
     ),
 ]
 
-PUBLICACOES = [
-    (
-        "Grupo de estudos de Algoritmos",
-        "Vamos montar um grupo de estudos de Algoritmos para a prova. "
-        "Encontros às quintas, sala a combinar. Comentem se tiverem interesse.",
-        "aluno",
-    ),
-    (
-        "Achados e perdidos: caderno azul",
-        "Encontrei um caderno azul no laboratório 3, com anotações de Redes. "
-        "Está na coordenação. Comentem se for de vocês.",
-        "atacante",
-    ),
-    (
-        "Semana de Tecnologia — chamada de voluntários",
-        "A Semana de Tecnologia acontece no mês que vem. Precisamos de voluntários "
-        "para recepção e para as oficinas. Deixem um comentário para participar.",
-        "aluno",
-    ),
-]
+PUBLICACOES = []
 
-COMENTARIOS = [
-    (1, "atacante", "Tenho interesse! Quinta de tarde funciona pra mim."),
-    (1, "aluno", "Fechado, vou reservar uma sala e aviso aqui."),
-    (2, "aluno", "Não é meu, mas espero que apareça o dono."),
-    (3, "atacante", "Quero ajudar nas oficinas de redes."),
-]
+COMENTARIOS = []
 
 
 def _iso_agora():

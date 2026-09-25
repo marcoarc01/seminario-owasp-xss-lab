@@ -64,6 +64,15 @@ def listar_publicacoes(conn):
     ).fetchall()
 
 
+def criar_publicacao(conn, titulo, corpo, autor, criado_em):
+    cursor = conn.execute(
+        "INSERT INTO publicacoes (titulo, corpo, autor, criado_em) VALUES (?, ?, ?, ?)",
+        (titulo, corpo, autor, criado_em),
+    )
+    conn.commit()
+    return cursor.lastrowid
+
+
 def get_publicacao(conn, pub_id):
     return conn.execute(
         "SELECT * FROM publicacoes WHERE id = ?", (pub_id,)

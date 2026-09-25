@@ -186,12 +186,35 @@ def logout():
     return resp
 
 
-@app.route("/mural")
+@app.route("/mural", methods=["GET", "POST"])
 def mural():
     if not g.usuario:
         return redirect(url_for("login"))
+    erro = None
+    dados = {"titulo": "", "corpo": ""}
+    if request.method == "POST":
+        dados = {
+            "titulo": request.form.get("titulo", "").strip(),
+            "corpo": request.form.get("corpo", "").strip(),
+        }
+        if not 3 <= len(dados["titulo"]) <= 120:
+            erro = "O título deve ter de 3 a 120 caracteres."
+        elif not 1 <= len(dados["corpo"]) <= 2000:
+            erro = "A descrição deve ter de 1 a 2000 caracteres."
+        else:
+            from datetime import datetime, timezone
+
+            criado_em = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
+            pub_id = db.criar_publicacao(
+                g.conn,
+                dados["titulo"],
+                dados["corpo"],
+                g.usuario["usuario"],
+                criado_em,
+            )
+            return redirect(url_for("publicacao", pub_id=pub_id))
     pubs = db.listar_publicacoes(g.conn)
-    return render_template("mural.html", publicacoes=pubs)
+    return render_template("mural.html", publicacoes=pubs, erro=erro, dados=dados)
 
 
 @app.route("/publicacao/<int:pub_id>", methods=["GET", "POST"])

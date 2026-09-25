@@ -21,23 +21,6 @@
     <ul class="lista-comentarios">
       {% for comentario in comentarios %}
         <li class="item-comentario">
-          {# ------------------------------------------------------------ #}
-          {#  VULNERABILIDADE INTENCIONAL DO LABORATÓRIO                    #}
-          {#                                                               #}
-          {#  A linha abaixo renderiza o CORPO do comentário com o filtro  #}
-          {#  |safe, ou seja, desliga o escape automático do Jinja SÓ      #}
-          {#  para este campo. Assim, se o comentário contiver             #}
-          {#  <script>...</script>, o navegador o interpreta como CÓDIGO,  #}
-          {#  e não como texto. É esta a falha de Stored XSS.              #}
-          {#                                                               #}
-          {#  CORREÇÃO PRINCIPAL (feita ao vivo / patches/remediation.diff):#}
-          {#      troque   {{ comentario.conteudo | safe }}                #}
-          {#      por      {{ comentario.conteudo }}                       #}
-          {#  Nada de regex nem de "remover a palavra script": a defesa é  #}
-          {#  tratar o comentário como TEXTO no contexto HTML.             #}
-          {#                                                               #}
-          {#  Observe que autor e horário continuam ESCAPADOS (sem |safe). #}
-          {# ------------------------------------------------------------ #}
           <div class="comentario-corpo">{{ comentario.conteudo | safe}}</div>
           <p class="meta">por {{ comentario.autor }} · {{ comentario.criado_em }}</p>
         </li>

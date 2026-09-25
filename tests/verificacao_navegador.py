@@ -126,6 +126,19 @@ def publica_comentario(page, pub_id, texto):
     page.wait_for_load_state("networkidle")
 
 
+def cria_publicacao(page, titulo, corpo):
+    page.goto(PORTAL_URL + "/mural")
+    fecha_modal(page)
+    page.fill("#titulo", titulo)
+    page.fill("#corpo", corpo)
+    page.click(".formulario-publicacao button[type=submit]")
+    page.wait_for_load_state("networkidle")
+    match = re.search(r"/publicacao/(\d+)$", page.url)
+    if not match:
+        raise RuntimeError(f"publicação não foi criada: {page.url}")
+    return int(match.group(1))
+
+
 def main():
     # Pré-condições de porta.
     if not porta_livre("127.0.0.1", 5000) or not porta_livre("127.0.0.1", 9000):
@@ -165,8 +178,14 @@ def main():
                                           alertas.__setitem__("msg", d.message),
                                           d.dismiss()))
             login(page, "aluno", "aluno123")
-            # publicação 1 recebe o alerta (separada da captura)
-            publica_comentario(page, 1, "<script>alert(1)</script>")
+            pub_alerta = cria_publicacao(
+                page, "Página de teste do alerta", "Comentários para a prova inicial de XSS."
+            )
+            pub_captura = cria_publicacao(
+                page, "Página de teste da captura", "Comentários para a captura da sessão."
+            )
+            # Uma página recebe o alerta, separada da captura.
+            publica_comentario(page, pub_alerta, "<script>alert(1)</script>")
             checa("A: alert(1) dispara ao renderizar o comentário",
                   alertas["n"] >= 1, f"mensagem={alertas['msg']!r}")
             # persistência: recarrega
@@ -197,10 +216,10 @@ def main():
             # ---- B) Captura real via payload no navegador -------------
             with open(os.path.join(RAIZ, "payloads", "2_captura_sessao.txt")) as fh:
                 payload = fh.read()
-            # publicação 2 recebe o payload de captura (separada do alerta).
-            # Ao publicar, o redirect já re-renderiza a publicação 2 e executa
+            # A segunda página recebe o payload de captura (separada do alerta).
+            # Ao publicar, o redirect já re-renderiza a página e executa
             # o payload uma vez (é assim que o XSS persistente atinge quem abre).
-            publica_comentario(page, 2, payload)
+            publica_comentario(page, pub_captura, payload)
             time.sleep(1.0)
             n2, tokens = coletor_capturas()
             checa("B: coletor registra nova captura do payload real (1 render = 1 captura)",
@@ -275,7 +294,7 @@ def main():
             al2 = {"n": 0}
             p2.on("dialog", lambda d: (al2.__setitem__("n", al2["n"] + 1), d.dismiss()))
             login(p2, "aluno", "aluno123")
-            p2.goto(f"{PORTAL_URL}/publicacao/1")   # mesma publicação do alerta
+            p2.goto(f"{PORTAL_URL}/publicacao/{pub_alerta}")
             p2.wait_for_load_state("networkidle")
             time.sleep(0.5)
             checa("Escape: comentário antigo NÃO dispara alerta", al2["n"] == 0)
@@ -283,7 +302,7 @@ def main():
                   "&lt;script&gt;alert(1)&lt;/script&gt;" in p2.content()
                   or "<script>alert(1)</script>" in p2.inner_text("body"))
             # comentário normal continua visível
-            p2.goto(f"{PORTAL_URL}/publicacao/2")
+            p2.goto(f"{PORTAL_URL}/publicacao/{pub_captura}")
             p2.wait_for_load_state("networkidle")
             time.sleep(0.8)
             n_pos_fix, _ = coletor_capturas()
@@ -318,7 +337,7 @@ def main():
             p4.on("dialog", lambda d: (al4.__setitem__("n", al4["n"] + 1), d.dismiss()))
             p4.on("console", lambda m: csp_msgs.append(m.text))
             login(p4, "aluno", "aluno123")
-            p4.goto(f"{PORTAL_URL}/publicacao/1")   # tem <script>alert(1)</script> cru
+            p4.goto(f"{PORTAL_URL}/publicacao/{pub_alerta}")
             p4.wait_for_load_state("networkidle")
             time.sleep(0.6)
             # cabeçalho CSP presente

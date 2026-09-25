@@ -12,12 +12,39 @@
       </p>
     {% endif %}
 
+    <section class="nova-publicacao">
+      <h2 class="subtitulo">Criar nova página de comentários</h2>
+      <p class="nota-discreta">
+        Crie um assunto para a demonstração. Depois, publique comentários dentro dele.
+      </p>
+      {% if erro %}
+        <p class="erro" role="alert">{{ erro }}</p>
+      {% endif %}
+      <form method="post" class="formulario formulario-publicacao">
+        <label for="titulo">Título</label>
+        <input id="titulo" name="titulo" maxlength="120"
+               value="{{ dados.titulo }}" required>
+        <label for="corpo">Descrição</label>
+        <textarea id="corpo" name="corpo" rows="3" maxlength="2000"
+                  required>{{ dados.corpo }}</textarea>
+        <button type="submit" class="botao">Criar página</button>
+      </form>
+    </section>
+
+    <hr class="divisoria">
+
+    <h2 class="subtitulo">Páginas criadas</h2>
+
     <ul class="lista-publicacoes">
       {% for pub in publicacoes %}
         <li class="item-publicacao">
           <a class="titulo-publicacao" href="{{ url_for('publicacao', pub_id=pub.id) }}">{{ pub.titulo }}</a>
           <p class="corpo-publicacao">{{ pub.corpo }}</p>
           <p class="meta">por {{ pub.autor }} · {{ pub.criado_em }}</p>
+        </li>
+      {% else %}
+        <li class="item-publicacao vazio">
+          Nenhuma página criada ainda. Use o formulário acima para começar.
         </li>
       {% endfor %}
     </ul>
