@@ -67,6 +67,7 @@ def cookie_flags() -> dict:
             # sem "domain": cookie host-only (vale só para o host que o emitiu)
         }
     # modo corrigido
+    # DEMO: HttpOnly esconde o token de document.cookie.
     return {
         "httponly": True,        # bloqueia document.cookie
         "samesite": "Lax",       # reduz envio cross-site (não impede XSS)
@@ -88,13 +89,14 @@ def content_security_policy() -> str | None:
     """
     if is_vulneravel():
         return None
+    # DEMO: bloqueia script inline e conexões para outras origens.
     return (
-        "default-src 'self'; "
-        "script-src 'self'; "
-        "style-src 'self'; "
-        "img-src 'self'; "
-        "connect-src 'self'; "
-        "base-uri 'self'; "
-        "form-action 'self'; "
-        "frame-ancestors 'none'"
+        "default-src 'self'; "       # padrão: recursos só da própria origem
+        "script-src 'self'; "        # scripts locais; bloqueia script inline
+        "style-src 'self'; "         # estilos só da própria aplicação
+        "img-src 'self'; "           # imagens só da própria aplicação
+        "connect-src 'self'; "       # fetch/conexões só para a mesma origem
+        "base-uri 'self'; "          # impede trocar a URL-base por outra origem
+        "form-action 'self'; "       # formulários só enviam para a própria origem
+        "frame-ancestors 'none'"     # impede abrir o portal dentro de iframe
     )

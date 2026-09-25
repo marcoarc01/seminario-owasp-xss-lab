@@ -5,18 +5,8 @@
   <section class="cartao">
     <h1 class="titulo-pagina">Mural compartilhado</h1>
 
-    {% if not vulneravel %}
-      {# Modo corrigido: orientação discreta e contextual, sem repetição. #}
-      <p class="nota-discreta">
-        Comentários são exibidos como texto. Scripts enviados não são executados.
-      </p>
-    {% endif %}
-
     <section class="nova-publicacao">
       <h2 class="subtitulo">Criar nova página de comentários</h2>
-      <p class="nota-discreta">
-        Crie um assunto para a demonstração. Depois, publique comentários dentro dele.
-      </p>
       {% if erro %}
         <p class="erro" role="alert">{{ erro }}</p>
       {% endif %}

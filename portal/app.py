@@ -70,6 +70,7 @@ def _cabecalhos_seguranca(resp):
     # CSP só existe no modo corrigido (complementa o escape, não o substitui).
     csp = content_security_policy()
     if csp:
+        # DEMO: o navegador recebe e aplica esta política.
         resp.headers["Content-Security-Policy"] = csp
     # Um cabeçalho útil e barato nos dois modos:
     resp.headers["X-Content-Type-Options"] = "nosniff"
@@ -96,6 +97,7 @@ def _emitir_sessao(resp, usuario_id):
     """
     token = auth.criar_sessao(g.conn, usuario_id)
     flags = cookie_flags()
+    # DEMO: faça novo login para reemitir o cookie com estas flags.
     resp.set_cookie(
         COOKIE_NAME,
         token,
@@ -230,7 +232,7 @@ def publicacao(pub_id):
             from datetime import datetime, timezone
 
             criado_em = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
-            # Grava o texto ORIGINAL, sem sanitizar (parametrizado).
+            # DEMO: salva o texto original; a proteção ocorre na exibição.
             db.inserir_comentario(
                 g.conn, pub_id, g.usuario["usuario"], conteudo, criado_em
             )

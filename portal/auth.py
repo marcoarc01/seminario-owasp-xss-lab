@@ -55,6 +55,7 @@ def verificar_credenciais(conn, usuario: str, senha: str):
 
 def criar_sessao(conn, usuario_id: int) -> str:
     """Cria uma sessão e devolve o TOKEN EM CLARO (vai só para o cookie)."""
+    # DEMO: token aleatório; somente o hash será salvo no banco.
     token = secrets.token_urlsafe(32)          # imprevisível
     token_hash = hash_token(token)             # só o hash é persistido
     agora = _agora()

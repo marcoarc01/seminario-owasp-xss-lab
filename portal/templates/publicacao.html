@@ -12,15 +12,11 @@
 
     <h2 class="subtitulo">Comentários</h2>
 
-    {% if not vulneravel %}
-      <p class="nota-discreta">
-        Os comentários abaixo são exibidos como texto. Código enviado não roda.
-      </p>
-    {% endif %}
 
     <ul class="lista-comentarios">
       {% for comentario in comentarios %}
         <li class="item-comentario">
+          {# DEMO: |safe executa HTML; remova |safe para tratar como texto. #}
           <div class="comentario-corpo">{{ comentario.conteudo | safe}}</div>
           <p class="meta">por {{ comentario.autor }} · {{ comentario.criado_em }}</p>
         </li>
