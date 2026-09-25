@@ -183,6 +183,103 @@ O portal:
 Essas medidas restringem o laboratório e reduzem exposição, mas não substituem
 a correção do template.
 
+## Como iniciar e usar o DBeaver
+
+O DBeaver será usado para mostrar que o comentário malicioso foi realmente
+armazenado no banco. Ele não é necessário para o ataque funcionar; serve como
+evidência visual durante a apresentação.
+
+### Abrir e conectar
+
+1. Abra o **DBeaver** pelo menu Iniciar do Windows.
+2. Clique em **Database → New Database Connection**.
+3. Escolha **SQLite** e clique em **Next**.
+4. Em **Path**, selecione este arquivo:
+
+   ```text
+   C:\Users\marco\OneDrive\Documentos\projeto ciber\seminario-owasp-xss-lab\instance\mural.db
+   ```
+
+5. Clique em **Test Connection**.
+6. Se o DBeaver solicitar o driver SQLite, autorize o download.
+7. Clique em **Finish**.
+
+SQLite é um banco armazenado em um arquivo. Por isso, essa conexão não exige
+servidor, porta, usuário ou senha.
+
+### Abrir o editor SQL
+
+No painel esquerdo, localize a conexão do `mural.db`, clique com o botão direito
+e escolha **SQL Editor → New SQL Script**.
+
+Também é possível abrir o arquivo pronto:
+
+```text
+consultas_dbeaver.sql
+```
+
+### Consultas importantes para a apresentação
+
+Mostrar os comentários armazenados:
+
+```sql
+SELECT id, publicacao_id, autor, conteudo, criado_em
+FROM comentarios
+ORDER BY id;
+```
+
+Localizar comentários que possuem `<script>`:
+
+```sql
+SELECT id, publicacao_id, autor, conteudo
+FROM comentarios
+WHERE conteudo LIKE '%<script%';
+```
+
+Mostrar que o banco guarda somente o hash da sessão:
+
+```sql
+SELECT id, usuario_id, token_hash, criado_em, expira_em, revogada
+FROM sessoes;
+```
+
+Para executar uma consulta, selecione o comando e pressione `Ctrl+Enter`, ou
+clique no botão de executar do DBeaver.
+
+### O que explicar ao mostrar o banco
+
+Fala curta para memorizar:
+
+> O comentário foi salvo no banco exatamente como foi digitado. O SQLite não
+> executou o JavaScript; ele apenas armazenou texto. A vulnerabilidade aparece
+> depois, quando o Jinja usa `safe` e o navegador interpreta esse texto como
+> HTML e JavaScript.
+
+Ao mostrar a tabela `sessoes`, diga:
+
+> O banco não guarda o token verdadeiro da sessão. Ele guarda somente o
+> SHA-256 do token. O valor em claro existe no cookie do navegador, e é esse
+> valor que o XSS tenta capturar.
+
+### Evitar `database is locked`
+
+Antes de executar `python reset.py`, faça **Commit** ou **Rollback** no DBeaver
+e desconecte a conexão do SQLite. Uma transação aberta no DBeaver pode impedir
+o portal ou o reset de modificar o arquivo.
+
+Depois do reset, reconecte ao banco ou use **Refresh** no painel do DBeaver.
+
+Resumo para decorar:
+
+```text
+Abrir DBeaver
+→ conectar no instance\mural.db
+→ abrir SQL Editor
+→ executar SELECT nos comentários
+→ mostrar o <script> armazenado
+→ explicar: banco armazenou texto; navegador executou na renderização
+```
+
 ## Como demonstrar a correção
 
 1. No modo vulnerável, publique:
